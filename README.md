@@ -5,7 +5,7 @@ Noda Time support for Dapper
 
 
 ```
-PM> Install-Package Dapper-NodaTime -Pre
+PM> Install-Package Dapper-NodaTime
 ```
 
 In your project startup sequence somewhere, call:
