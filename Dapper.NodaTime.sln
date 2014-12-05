@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.NodaTime", "Dapper.NodaTime\Dapper.NodaTime.csproj", "{EE267310-5B54-4CD1-A2BB-BDE220AE9B0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.NodaTime.Tests", "Dapper.NodaTime.Tests\Dapper.NodaTime.Tests.csproj", "{8C9BC1C8-D4AE-4E27-85D4-8B61BF80FBF6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE267310-5B54-4CD1-A2BB-BDE220AE9B0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE267310-5B54-4CD1-A2BB-BDE220AE9B0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE267310-5B54-4CD1-A2BB-BDE220AE9B0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE267310-5B54-4CD1-A2BB-BDE220AE9B0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C9BC1C8-D4AE-4E27-85D4-8B61BF80FBF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C9BC1C8-D4AE-4E27-85D4-8B61BF80FBF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C9BC1C8-D4AE-4E27-85D4-8B61BF80FBF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C9BC1C8-D4AE-4E27-85D4-8B61BF80FBF6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
