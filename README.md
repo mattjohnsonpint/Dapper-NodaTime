@@ -8,6 +8,17 @@ Noda Time support for Dapper
 PM> Install-Package Dapper-NodaTime -Pre
 ```
 
+In your project startup sequence somewhere, call:
+```csharp
+DapperNodaTimeSetup.Register();
+```
+
+That registers all of the type handlers.  Alternatively, you can register each type handler separately if you wish.
+For example:
+```csharp
+SqlMapper.AddTypeHandler(LocalDateTimeHandler.Default);
+```
+
 Work in progress.  Currently supports the following types:
 
 - Instant
