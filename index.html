@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Dapper-NodaTime : Noda Time support for Dapper">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Dapper-NodaTime</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/mj1856/Dapper-NodaTime">View on GitHub</a>
+
+          <h1 id="project_title">Dapper-NodaTime</h1>
+          <h2 id="project_tagline">Noda Time support for Dapper</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/mj1856/Dapper-NodaTime/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/mj1856/Dapper-NodaTime/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="dapper-nodatime" class="anchor" href="#dapper-nodatime" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dapper-NodaTime</h1>
+
+<p>Noda Time support for Dapper</p>
+
+<pre><code>PM&gt; Install-Package Dapper-NodaTime
+</code></pre>
+
+<p>In your project startup sequence somewhere, call:</p>
+
+<div class="highlight highlight-csharp"><pre>DapperNodaTimeSetup.Register();</pre></div>
+
+<p>That registers all of the type handlers.  Alternatively, you can register each type handler separately if you wish.
+For example:</p>
+
+<div class="highlight highlight-csharp"><pre>SqlMapper.AddTypeHandler(LocalDateTimeHandler.Default);</pre></div>
+
+<p>Work in progress.  Currently supports the following types:</p>
+
+<ul>
+<li>Instant</li>
+<li>LocalDateTime</li>
+<li>LocalDate</li>
+<li>LocalTime</li>
+<li>OffsetDateTime</li>
+</ul>
+
+<p>Does not yet support:</p>
+
+<ul>
+<li>Duration</li>
+<li>Period</li>
+<li>Offset</li>
+<li>ZonedDateTime</li>
+<li>DateTimeZone</li>
+</ul>
+
+<p>See also:  <a href="https://github.com/StackExchange/dapper-dot-net/issues/198">https://github.com/StackExchange/dapper-dot-net/issues/198</a></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Dapper-NodaTime maintained by <a href="https://github.com/mj1856">mj1856</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
