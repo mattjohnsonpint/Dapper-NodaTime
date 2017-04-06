@@ -1,4 +1,4 @@
-Dapper-NodaTime
+Dapper-NodaTime  [![NuGet Version](https://img.shields.io/nuget/v/Dapper-NodaTime.svg?style=flat)](https://www.nuget.org/packages/Dapper-NodaTime/) 
 ===============
 
 Noda Time support for Dapper
