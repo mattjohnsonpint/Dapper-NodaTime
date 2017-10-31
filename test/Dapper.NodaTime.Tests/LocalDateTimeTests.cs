@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using NodaTime;
 using Xunit;
@@ -7,25 +8,23 @@ namespace Dapper.NodaTime.Tests
 {
     public class LocalDateTimeTests
     {
+        private readonly string _connectionString;
 
-        public const string ConnectionString = @"Data Source=(LocalDB)\v11.0;Integrated Security=true;AttachDbFileName=|DataDirectory|\TestDB.mdf";
-
-        public class TestObject
+        private class TestObject
         {
             public LocalDateTime? Value { get; set; }
         }
 
         public LocalDateTimeTests()
         {
+            _connectionString = ConfigurationManager.ConnectionStrings["TestDB"].ConnectionString;
             SqlMapper.AddTypeHandler(LocalDateTimeHandler.Default);
         }
-
-        
 
         [Fact]
         public void Can_Write_And_Read_LocalDateTime_Stored_As_DateTime2()
         {
-            using (var connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 var o = new TestObject { Value = new LocalDateTime(1234, 12, 31, 1, 2, 3, 4) };
 
@@ -39,7 +38,7 @@ namespace Dapper.NodaTime.Tests
         [Fact]
         public void Can_Write_And_Read_LocalDateTime_Stored_As_DateTime()
         {
-            using (var connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 var o = new TestObject { Value = new LocalDateTime(1753, 12, 31, 1, 2, 3, 333) };
 
@@ -53,7 +52,7 @@ namespace Dapper.NodaTime.Tests
         [Fact]
         public void Can_Write_And_Read_LocalDateTime_With_Null_Value()
         {
-            using (var connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 var o = new TestObject();
 
@@ -64,6 +63,5 @@ namespace Dapper.NodaTime.Tests
                 Assert.Null(t.Value);
             }
         }
-
     }
 }

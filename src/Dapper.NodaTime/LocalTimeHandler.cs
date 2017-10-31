@@ -11,7 +11,7 @@ namespace Dapper.NodaTime
 {
     public class LocalTimeHandler : SqlMapper.TypeHandler<LocalTime>
     {
-        protected LocalTimeHandler()
+        private LocalTimeHandler()
         {
         }
 
@@ -21,8 +21,7 @@ namespace Dapper.NodaTime
         {
             parameter.Value = TimeSpan.FromTicks(value.TickOfDay);
 
-            var sqlParameter = parameter as SqlParameter;
-            if (sqlParameter != null)
+            if (parameter is SqlParameter sqlParameter)
             {
                 sqlParameter.SqlDbType = SqlDbType.Time;
             }
@@ -30,16 +29,14 @@ namespace Dapper.NodaTime
 
         public override LocalTime Parse(object value)
         {
-            if (value is TimeSpan)
+            if (value is TimeSpan timeSpan)
             {
-                var ts = (TimeSpan) value;
-                return LocalTime.FromTicksSinceMidnight(ts.Ticks);
+                return LocalTime.FromTicksSinceMidnight(timeSpan.Ticks);
             }
 
-            if (value is DateTime)
+            if (value is DateTime dateTime)
             {
-                var dt = (DateTime) value;
-                return LocalTime.FromTicksSinceMidnight(dt.TimeOfDay.Ticks);
+                return LocalTime.FromTicksSinceMidnight(dateTime.TimeOfDay.Ticks);
             }
 
             throw new DataException("Cannot convert " + value.GetType() + " to NodaTime.LocalTime");

@@ -11,7 +11,7 @@ namespace Dapper.NodaTime
 {
     public class LocalDateTimeHandler : SqlMapper.TypeHandler<LocalDateTime>
     {
-        protected LocalDateTimeHandler()
+        private LocalDateTimeHandler()
         {
         }
 
@@ -20,9 +20,8 @@ namespace Dapper.NodaTime
         public override void SetValue(IDbDataParameter parameter, LocalDateTime value)
         {
             parameter.Value = value.ToDateTimeUnspecified();
-            
-            var sqlParameter = parameter as SqlParameter;
-            if (sqlParameter != null)
+
+            if (parameter is SqlParameter sqlParameter)
             {
                 sqlParameter.SqlDbType = SqlDbType.DateTime2;
             }
@@ -30,9 +29,9 @@ namespace Dapper.NodaTime
 
         public override LocalDateTime Parse(object value)
         {
-            if (value is DateTime)
+            if (value is DateTime dateTime)
             {
-                return LocalDateTime.FromDateTime((DateTime) value);
+                return LocalDateTime.FromDateTime(dateTime);
             }
 
             throw new DataException("Cannot convert " + value.GetType() + " to NodaTime.LocalDateTime");

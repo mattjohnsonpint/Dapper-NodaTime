@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using NodaTime;
 using Xunit;
@@ -7,8 +8,7 @@ namespace Dapper.NodaTime.Tests
 {
     public class OffsetDateTimeTests
     {
-
-        public const string ConnectionString = @"Data Source=(LocalDB)\v11.0;Integrated Security=true;AttachDbFileName=|DataDirectory|\TestDB.mdf";
+        private readonly string _connectionString;
 
         public class TestObject
         {
@@ -17,14 +17,14 @@ namespace Dapper.NodaTime.Tests
 
         public OffsetDateTimeTests()
         {
+            _connectionString = ConfigurationManager.ConnectionStrings["TestDB"].ConnectionString;
             SqlMapper.AddTypeHandler(OffsetDateTimeHandler.Default);
         }
-
 
         [Fact]
         public void Can_Write_And_Read_OffsetDateTime_Stored_As_DateTimeOffset()
         {
-            using (var connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 var o = new TestObject
                 {
@@ -43,7 +43,7 @@ namespace Dapper.NodaTime.Tests
         [Fact]
         public void Can_Write_And_Read_OffsetDateTime_With_Null_Value()
         {
-            using (var connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 var o = new TestObject();
 
@@ -54,6 +54,5 @@ namespace Dapper.NodaTime.Tests
                 Assert.Null(t.Value);
             }
         }
-
     }
 }

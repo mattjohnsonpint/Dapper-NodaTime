@@ -11,7 +11,7 @@ namespace Dapper.NodaTime
 {
     public class InstantHandler : SqlMapper.TypeHandler<Instant>
     {
-        protected InstantHandler()
+        private InstantHandler()
         {
         }
 
@@ -21,8 +21,7 @@ namespace Dapper.NodaTime
         {
             parameter.Value = value.ToDateTimeUtc();
 
-            var sqlParameter = parameter as SqlParameter;
-            if (sqlParameter != null)
+            if (parameter is SqlParameter sqlParameter)
             {
                 sqlParameter.SqlDbType = SqlDbType.DateTime2;
             }
@@ -30,15 +29,15 @@ namespace Dapper.NodaTime
 
         public override Instant Parse(object value)
         {
-            if (value is DateTime)
+            if (value is DateTime dateTime)
             {
-                var dt = DateTime.SpecifyKind((DateTime) value, DateTimeKind.Utc);
+                var dt = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
                 return Instant.FromDateTimeUtc(dt);
             }
 
-            if (value is DateTimeOffset)
+            if (value is DateTimeOffset dateTimeOffset)
             {
-                return Instant.FromDateTimeOffset((DateTimeOffset)value);
+                return Instant.FromDateTimeOffset(dateTimeOffset);
             }
 
             throw new DataException("Cannot convert " + value.GetType() + " to NodaTime.Instant");

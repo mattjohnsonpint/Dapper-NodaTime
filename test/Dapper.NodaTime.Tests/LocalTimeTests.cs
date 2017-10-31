@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using NodaTime;
 using Xunit;
@@ -7,25 +8,23 @@ namespace Dapper.NodaTime.Tests
 {
     public class LocalTimeTests
     {
+        private readonly string _connectionString;
 
-        public const string ConnectionString = @"Data Source=(LocalDB)\v11.0;Integrated Security=true;AttachDbFileName=|DataDirectory|\TestDB.mdf";
-
-        public class TestObject
+        private class TestObject
         {
             public LocalTime? Value { get; set; }
         }
 
         public LocalTimeTests()
         {
+            _connectionString = ConfigurationManager.ConnectionStrings["TestDB"].ConnectionString;
             SqlMapper.AddTypeHandler(LocalTimeHandler.Default);
         }
-
-        
 
         [Fact]
         public void Can_Write_And_Read_LocalTime_Stored_As_Time()
         {
-            using (var connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 var o = new TestObject {Value = new LocalTime(23, 59, 59, 999)};
 
@@ -39,7 +38,7 @@ namespace Dapper.NodaTime.Tests
         [Fact]
         public void Can_Write_And_Read_LocalTime_Stored_As_DateTime()
         {
-            using (var connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 var o = new TestObject { Value = new LocalTime(23, 59, 59, 333) };
 
@@ -53,7 +52,7 @@ namespace Dapper.NodaTime.Tests
         [Fact]
         public void Can_Write_And_Read_LocalTime_Stored_As_DateTime2()
         {
-            using (var connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 var o = new TestObject { Value = new LocalTime(23, 59, 59, 999) };
 
@@ -67,7 +66,7 @@ namespace Dapper.NodaTime.Tests
         [Fact]
         public void Can_Write_And_Read_LocalTime_With_Null_Value()
         {
-            using (var connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 var o = new TestObject();
 
@@ -78,6 +77,5 @@ namespace Dapper.NodaTime.Tests
                 Assert.Null(t.Value);
             }
         }
-
     }
 }
