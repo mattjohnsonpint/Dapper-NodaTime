@@ -3,6 +3,10 @@ using System.Data;
 using System.Data.SqlClient;
 using NodaTime;
 
+#if NETSTANDARD1_3
+using DataException = System.InvalidOperationException;
+#endif
+
 namespace Dapper.NodaTime
 {
     public class OffsetDateTimeHandler : SqlMapper.TypeHandler<OffsetDateTime>

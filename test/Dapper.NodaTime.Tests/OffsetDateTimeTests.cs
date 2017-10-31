@@ -29,7 +29,7 @@ namespace Dapper.NodaTime.Tests
                 var o = new TestObject
                 {
                     Value = new OffsetDateTime(
-                        new LocalDateTime(1234, 1, 2, 3, 4, 5, 6, 7),
+                        new LocalDateTime(1234, 1, 2, 3, 4, 5, 6),
                         Offset.FromHoursAndMinutes(-5, -30))
                 };
 

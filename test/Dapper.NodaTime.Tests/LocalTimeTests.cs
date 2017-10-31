@@ -5,31 +5,31 @@ using Xunit;
 
 namespace Dapper.NodaTime.Tests
 {
-    public class LocalDateTimeTests
+    public class LocalTimeTests
     {
 
         public const string ConnectionString = @"Data Source=(LocalDB)\v11.0;Integrated Security=true;AttachDbFileName=|DataDirectory|\TestDB.mdf";
 
         public class TestObject
         {
-            public LocalDateTime? Value { get; set; }
+            public LocalTime? Value { get; set; }
         }
 
-        public LocalDateTimeTests()
+        public LocalTimeTests()
         {
-            SqlMapper.AddTypeHandler(LocalDateTimeHandler.Default);
+            SqlMapper.AddTypeHandler(LocalTimeHandler.Default);
         }
 
         
 
         [Fact]
-        public void Can_Write_And_Read_LocalDateTime_Stored_As_DateTime2()
+        public void Can_Write_And_Read_LocalTime_Stored_As_Time()
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
-                var o = new TestObject { Value = new LocalDateTime(1234, 12, 31, 1, 2, 3, 4, 5) };
+                var o = new TestObject {Value = new LocalTime(23, 59, 59, 999)};
 
-                const string sql = @"CREATE TABLE #T ([Value] datetime2); INSERT INTO #T VALUES (@Value); SELECT * FROM #T";
+                const string sql = @"CREATE TABLE #T ([Value] time); INSERT INTO #T VALUES (@Value); SELECT * FROM #T";
                 var t = connection.Query<TestObject>(sql, o).First();
 
                 Assert.Equal(o.Value, t.Value);
@@ -37,11 +37,11 @@ namespace Dapper.NodaTime.Tests
         }
 
         [Fact]
-        public void Can_Write_And_Read_LocalDateTime_Stored_As_DateTime()
+        public void Can_Write_And_Read_LocalTime_Stored_As_DateTime()
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
-                var o = new TestObject { Value = new LocalDateTime(1753, 12, 31, 1, 2, 3, 333) };
+                var o = new TestObject { Value = new LocalTime(23, 59, 59, 333) };
 
                 const string sql = @"CREATE TABLE #T ([Value] datetime); INSERT INTO #T VALUES (@Value); SELECT * FROM #T";
                 var t = connection.Query<TestObject>(sql, o).First();
@@ -51,13 +51,27 @@ namespace Dapper.NodaTime.Tests
         }
 
         [Fact]
-        public void Can_Write_And_Read_LocalDateTime_With_Null_Value()
+        public void Can_Write_And_Read_LocalTime_Stored_As_DateTime2()
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                var o = new TestObject { Value = new LocalTime(23, 59, 59, 999) };
+
+                const string sql = @"CREATE TABLE #T ([Value] datetime2); INSERT INTO #T VALUES (@Value); SELECT * FROM #T";
+                var t = connection.Query<TestObject>(sql, o).First();
+
+                Assert.Equal(o.Value, t.Value);
+            }
+        }
+
+        [Fact]
+        public void Can_Write_And_Read_LocalTime_With_Null_Value()
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
                 var o = new TestObject();
 
-                const string sql = @"CREATE TABLE #T ([Value] datetime2); INSERT INTO #T VALUES (@Value); SELECT * FROM #T";
+                const string sql = @"CREATE TABLE #T ([Value] time); INSERT INTO #T VALUES (@Value); SELECT * FROM #T";
                 var t = connection.Query<TestObject>(sql, o).First();
 
                 Assert.Equal(o.Value, t.Value);
