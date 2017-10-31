@@ -6,6 +6,7 @@ using Xunit;
 
 namespace Dapper.NodaTime.Tests
 {
+    [Collection("DBTests")]
     public class InstantTests
     {
         private readonly string _connectionString;

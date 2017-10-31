@@ -6,6 +6,7 @@ using Xunit;
 
 namespace Dapper.NodaTime.Tests
 {
+    [Collection("DBTests")]
     public class LocalDateTests
     {
         private readonly string _connectionString;
