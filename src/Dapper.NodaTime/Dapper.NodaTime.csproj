@@ -4,7 +4,7 @@
     <Description>Provides Noda Time support for Dapper</Description>
     <Authors>Matt Johnson</Authors>
     <TargetFrameworks>netstandard2.0;netstandard1.3;net45</TargetFrameworks>
-    <PackageId>Dapper.NodaTime</PackageId>
+    <PackageId>Dapper-NodaTime</PackageId>
     <PackageTags>dapper;nodatime;noda time</PackageTags>
     <PackageProjectUrl>https://github.com/mj1856/Dapper-NodaTime</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/mj1856/Dapper-NodaTime/master/LICENSE</PackageLicenseUrl>
