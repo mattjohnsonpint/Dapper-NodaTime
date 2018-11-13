@@ -29,6 +29,10 @@ namespace Dapper.NodaTime
 
         public override Instant Parse(object value)
         {
+            if (value is Instant) {
+                return (Instant)value;
+            }
+
             if (value is DateTime dateTime)
             {
                 var dt = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
