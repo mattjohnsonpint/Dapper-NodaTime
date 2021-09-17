@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
 using NodaTime;
-
-#if NETSTANDARD1_3
-using DataException = System.InvalidOperationException;
-#endif
 
 namespace Dapper.NodaTime
 {
@@ -20,11 +15,7 @@ namespace Dapper.NodaTime
         public override void SetValue(IDbDataParameter parameter, OffsetDateTime value)
         {
             parameter.Value = value.ToDateTimeOffset();
-
-            if (parameter is SqlParameter sqlParameter)
-            {
-                sqlParameter.SqlDbType = SqlDbType.DateTimeOffset;
-            }
+            parameter.SetSqlDbType(SqlDbType.DateTimeOffset);
         }
 
         public override OffsetDateTime Parse(object value)
