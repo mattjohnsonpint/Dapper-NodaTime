@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
 using NodaTime;
-
-#if NETSTANDARD1_3
-using DataException = System.InvalidOperationException;
-#endif
 
 namespace Dapper.NodaTime
 {
@@ -20,11 +15,7 @@ namespace Dapper.NodaTime
         public override void SetValue(IDbDataParameter parameter, Instant value)
         {
             parameter.Value = value.ToDateTimeUtc();
-
-            if (parameter is SqlParameter sqlParameter)
-            {
-                sqlParameter.SqlDbType = SqlDbType.DateTime2;
-            }
+            parameter.SetSqlDbType(SqlDbType.DateTime2);
         }
 
         public override Instant Parse(object value)
