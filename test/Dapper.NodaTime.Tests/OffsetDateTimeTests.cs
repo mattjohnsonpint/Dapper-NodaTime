@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Linq;
 using NodaTime;
 using Xunit;
@@ -16,9 +15,9 @@ namespace Dapper.NodaTime.Tests
             public OffsetDateTime? Value { get; set; }
         }
 
-        public OffsetDateTimeTests()
+        public OffsetDateTimeTests(DatabaseFixture databaseFixture)
         {
-            _connectionString = ConfigurationManager.ConnectionStrings["TestDB"].ConnectionString;
+            _connectionString = databaseFixture.ConnectionString;
             SqlMapper.AddTypeHandler(OffsetDateTimeHandler.Default);
         }
 
