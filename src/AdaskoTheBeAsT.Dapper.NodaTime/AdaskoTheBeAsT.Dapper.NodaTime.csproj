@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>Provides Noda Time support for Dapper</Description>
-    <Authors>Matt Johnson</Authors>
-    <TargetFrameworks>netstandard2.0;netstandard1.3;net45</TargetFrameworks>
-    <PackageId>Dapper-NodaTime</PackageId>
+    <Authors>Matt Johnson; forked and updated Adam Pluciński</Authors>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <PackageId>AdaskoTheBeAsT.Dapper.NodaTime</PackageId>
     <PackageTags>dapper;nodatime;noda time</PackageTags>
     <PackageProjectUrl>https://github.com/mj1856/Dapper-NodaTime</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/mj1856/Dapper-NodaTime/master/LICENSE</PackageLicenseUrl>
@@ -14,12 +14,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NodaTime" Version="2.0.0" />
-    <PackageReference Include="Dapper" Version="1.50.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' OR '$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="System.Data.SqlClient" Version="4.4.0" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="NodaTime" Version="3.1.5" />
   </ItemGroup>
 
 </Project>

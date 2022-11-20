@@ -1,11 +1,12 @@
-Dapper-NodaTime  [![NuGet Version](https://img.shields.io/nuget/v/Dapper-NodaTime.svg?style=flat)](https://www.nuget.org/packages/Dapper-NodaTime/) 
+AdaskoTheBeAsT.Dapper.NodaTime  [![NuGet Version](https://img.shields.io/nuget/v/AdaskoTheBeAsT.Dapper.NodaTime.svg?style=flat)](https://www.nuget.org/packages/AdaskoTheBeAsT.Dapper.NodaTime/) 
 ===============
 
-Noda Time support for Dapper
+Noda Time support for Dapper - unofficial fork of Dapper-NodaTime project which development stopped some time ago.
+Refreshed for currently available .NET versions.
 
 
 ```
-PM> Install-Package Dapper-NodaTime
+PM> Install-Package AdaskoTheBeAsT.Dapper.NodaTime
 ```
 
 In your project startup sequence somewhere, call:
