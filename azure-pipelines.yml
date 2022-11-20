@@ -42,23 +42,23 @@ steps:
     displayName: Restore
     inputs:
       command: restore
-      arguments: AdaskoTheBeAsT.AutoMapper.SimpleInjector.sln
+      arguments: AdaskoTheBeAsT.Dapper.NodaTime.sln
 
   - task: SonarCloudPrepare@1
     displayName: "Prepare analysis on SonarCloud"
     inputs:
       scannerMode: "MSBuild"
-      SonarCloud: "Sonar.AdaskoTheBeAsT.AutoMapper.SimpleInjector"
+      SonarCloud: "Sonar.AdaskoTheBeAsT.Dapper.NodaTime"
       organization: "adaskothebeast-github"
-      projectKey: "AdaskoTheBeAsT_AdaskoTheBeAsT.AutoMapper.SimpleInjector"
-      projectName: AdaskoTheBeAsT.AutoMapper.SimpleInjector
+      projectKey: "AdaskoTheBeAsT_AdaskoTheBeAsT.Dapper.NodaTime"
+      projectName: AdaskoTheBeAsT.Dapper.NodaTime
       extraProperties: |
         sonar.resharper.cs.reportPath=$(Build.SourcesDirectory)/CodeQualityResults.xml
 
   - task: DotNetCoreCLI@2
     displayName: Build
     inputs:
-      arguments: "AdaskoTheBeAsT.AutoMapper.SimpleInjector.sln --configuration $(buildConfiguration)"
+      arguments: "AdaskoTheBeAsT.Dapper.NodaTime.sln --configuration $(buildConfiguration)"
 
   - task: CopyFiles@2
     displayName: "Copy nuget packages"
@@ -85,7 +85,7 @@ steps:
 
   - task: ResharperCli@2
     inputs:
-      solutionOrProjectPath: "AdaskoTheBeAsT.AutoMapper.SimpleInjector.sln"
+      solutionOrProjectPath: "AdaskoTheBeAsT.Dapper.NodaTime.sln"
       failBuildLevelSelector: "Warning"
       resultsOutputFilePath: "$(Build.SourcesDirectory)/CodeQualityResults.xml"
       additionalArguments: "--no-build"

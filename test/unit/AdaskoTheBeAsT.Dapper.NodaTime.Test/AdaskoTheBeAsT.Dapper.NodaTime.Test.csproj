@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\AdaskoTheBeAsT.Dapper.NodaTime\AdaskoTheBeAsT.Dapper.NodaTime.csproj" />
+    <ProjectReference Include="..\..\..\src\AdaskoTheBeAsT.Dapper.NodaTime\AdaskoTheBeAsT.Dapper.NodaTime.csproj" />
   </ItemGroup>
 
   <ItemGroup>
