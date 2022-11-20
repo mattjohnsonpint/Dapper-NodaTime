@@ -1,0 +1,152 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+  - master
+  - refs/tags/v*
+
+pool:
+  vmImage: "windows-2022"
+
+variables:
+  buildConfiguration: "Release"
+  unitTestProjects: "**/test/unit/**/*.csproj"
+  testResultsDirectory: "d:/a/1/TestResults"
+  MSBUILDSINGLELOADCONTEXT: 1
+  disable.coverage.autogenerate: "true"
+
+steps:
+  - task: UseDotNet@2
+    displayName: "Use .NET Core SDK 3.1.x"
+    inputs:
+      packageType: "sdk"
+      version: 3.1.x
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+      
+  - task: UseDotNet@2
+    displayName: "Use .NET Core SDK 6.0.x"
+    inputs:
+      packageType: "sdk"
+      version: 6.0.x
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+
+  - task: UseDotNet@2
+    displayName: "Use .NET Core SDK from global.json"
+    inputs:
+      packageType: "sdk"
+      useGlobalJson: true
+
+  - task: DotNetCoreCLI@2
+    displayName: Restore
+    inputs:
+      command: restore
+      arguments: AdaskoTheBeAsT.AutoMapper.SimpleInjector.sln
+
+  - task: SonarCloudPrepare@1
+    displayName: "Prepare analysis on SonarCloud"
+    inputs:
+      scannerMode: "MSBuild"
+      SonarCloud: "Sonar.AdaskoTheBeAsT.AutoMapper.SimpleInjector"
+      organization: "adaskothebeast-github"
+      projectKey: "AdaskoTheBeAsT_AdaskoTheBeAsT.AutoMapper.SimpleInjector"
+      projectName: AdaskoTheBeAsT.AutoMapper.SimpleInjector
+      extraProperties: |
+        sonar.resharper.cs.reportPath=$(Build.SourcesDirectory)/CodeQualityResults.xml
+
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      arguments: "AdaskoTheBeAsT.AutoMapper.SimpleInjector.sln --configuration $(buildConfiguration)"
+
+  - task: CopyFiles@2
+    displayName: "Copy nuget packages"
+    inputs:
+      sourceFolder: "$(Build.SourcesDirectory)"
+      contents: "**/$(BuildConfiguration)/**/?(AdaskoTheBeAsT.*.nupkg|AdaskoTheBeAsT.*.snupkg)"
+      targetFolder: "$(Build.SourcesDirectory)/nuget"
+      CleanTargetFolder: true
+      flattenFolders: true
+
+  - task: DeleteFiles@1
+    displayName: "Clear test results"
+    inputs:
+      SourceFolder: "$(testResultsDirectory)"
+      Contents: "**/*"
+
+  - task: DotNetCoreCLI@2
+    displayName: Test
+    inputs:
+      command: test
+      projects: "$(unitTestProjects)"
+      publishTestResults: false
+      arguments: '--configuration $(buildConfiguration) --collect:"Code Coverage" --collect:"XPlat Code Coverage" --logger:"trx" --results-directory $(testResultsDirectory)'
+
+  - task: ResharperCli@2
+    inputs:
+      solutionOrProjectPath: "AdaskoTheBeAsT.AutoMapper.SimpleInjector.sln"
+      failBuildLevelSelector: "Warning"
+      resultsOutputFilePath: "$(Build.SourcesDirectory)/CodeQualityResults.xml"
+      additionalArguments: "--no-build"
+
+  - task: SonarCloudAnalyze@1
+    displayName: Sonar Cloud analyze
+
+  - task: SonarCloudPublish@1
+    displayName: Sonar Cloud publish
+    inputs:
+      pollingTimeoutSec: "300"
+
+  - task: DeleteFiles@1
+    displayName: "Clear coverage files"
+    inputs:
+      SourceFolder: "$(testResultsDirectory)"
+      Contents: "**/*.coverage"
+
+  - task: PublishTestResults@2
+    displayName: "Publish Test Results"
+    inputs:
+      testResultsFormat: "VSTest"
+      testResultsFiles: "*.trx"
+      searchFolder: "$(testResultsDirectory)"
+
+  - task: reportgenerator@5
+    inputs:
+      reports: "$(testResultsDirectory)/**/coverage.cobertura.xml"
+      targetdir: "$(testResultsDirectory)/coverage"
+
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: "Cobertura"
+      summaryFileLocation: "$(testResultsDirectory)/**/coverage.cobertura.xml"
+      reportDirectory: "$(testResultsDirectory)/coverage"
+
+  - task: CopyFiles@2
+    displayName: "Copy nuget packages"
+    inputs:
+      sourceFolder: "$(Build.SourcesDirectory)/nuget"
+      contents: "**/*"
+      targetFolder: "$(Build.ArtifactStagingDirectory)"
+      CleanTargetFolder: true
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: "$(Build.ArtifactStagingDirectory)"
+      artifactName: NugetPackages
+
+  - task: NuGetToolInstaller@1
+    displayName: "Install nuget"
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+    inputs:
+      versionSpec:
+      checkLatest: true
+
+  - task: NuGetCommand@2
+    displayName: "Publish to nuget"
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+    inputs:
+      command: "push"
+      packagesToPush: "$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.snupkg"
+      nuGetFeedType: "external"
+      publishFeedCredentials: "Nuget"

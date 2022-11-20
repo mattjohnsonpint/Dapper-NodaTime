@@ -1,30 +1,23 @@
-﻿using System;
+using System;
 using System.Data;
-using System.Data.SqlClient;
+using Dapper;
 using NodaTime;
 
-#if NETSTANDARD1_3
-using DataException = System.InvalidOperationException;
-#endif
-
-namespace Dapper.NodaTime
+namespace AdaskoTheBeAsT.Dapper.NodaTime
 {
-    public class LocalDateTimeHandler : SqlMapper.TypeHandler<LocalDateTime>
+    public sealed class LocalDateTimeHandler
+        : SqlMapper.TypeHandler<LocalDateTime>
     {
+        public static readonly LocalDateTimeHandler Default = new();
+
         private LocalDateTimeHandler()
         {
         }
 
-        public static readonly LocalDateTimeHandler Default = new LocalDateTimeHandler();
-
         public override void SetValue(IDbDataParameter parameter, LocalDateTime value)
         {
             parameter.Value = value.ToDateTimeUnspecified();
-
-            if (parameter is SqlParameter sqlParameter)
-            {
-                sqlParameter.SqlDbType = SqlDbType.DateTime2;
-            }
+            parameter.SetSqlDbType(SqlDbType.DateTime2);
         }
 
         public override LocalDateTime Parse(object value)
@@ -34,7 +27,7 @@ namespace Dapper.NodaTime
                 return LocalDateTime.FromDateTime(dateTime);
             }
 
-            throw new DataException("Cannot convert " + value.GetType() + " to NodaTime.LocalDateTime");
+            throw new DataException($"Cannot convert {value.GetType()} to NodaTime.LocalDateTime");
         }
     }
 }
