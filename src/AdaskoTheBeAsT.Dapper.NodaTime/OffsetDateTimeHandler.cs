@@ -22,6 +22,11 @@ namespace AdaskoTheBeAsT.Dapper.NodaTime
 
         public override OffsetDateTime Parse(object value)
         {
+            if (value is OffsetDateTime offsetDateTime)
+            {
+                return offsetDateTime;
+            }
+
             if (value is DateTimeOffset dateTimeOffset)
             {
                 return OffsetDateTime.FromDateTimeOffset(dateTimeOffset);

@@ -22,6 +22,11 @@ namespace AdaskoTheBeAsT.Dapper.NodaTime
 
         public override LocalDate Parse(object value)
         {
+            if (value is LocalDate localDate)
+            {
+                return localDate;
+            }
+
             if (value is DateTime dateTime)
             {
                 return LocalDateTime.FromDateTime(dateTime).Date;

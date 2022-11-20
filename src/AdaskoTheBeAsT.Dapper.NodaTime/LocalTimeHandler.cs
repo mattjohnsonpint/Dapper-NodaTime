@@ -22,6 +22,11 @@ namespace AdaskoTheBeAsT.Dapper.NodaTime
 
         public override LocalTime Parse(object value)
         {
+            if (value is LocalTime localTime)
+            {
+                return localTime;
+            }
+
             if (value is TimeSpan timeSpan)
             {
                 return LocalTime.FromTicksSinceMidnight(timeSpan.Ticks);
