@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net462;net47;net471;net472;net48;net481;netcoreapp3.1;net6.0;net7.0</TargetFrameworks>
+    <ProjectGuid>{5A2ED014-89DD-4254-92E0-79E009040AD7}</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
