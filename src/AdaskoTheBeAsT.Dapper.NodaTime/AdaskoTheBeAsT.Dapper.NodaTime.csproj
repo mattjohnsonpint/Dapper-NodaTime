@@ -1,21 +1,40 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Provides Noda Time support for Dapper</Description>
-    <Authors>Matt Johnson; forked and updated Adam Pluciński</Authors>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <PackageId>AdaskoTheBeAsT.Dapper.NodaTime</PackageId>
+    <ProjectGuid>{70B9C8BA-511A-4DF7-B5BB-4371FEA1C798}</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RepositoryType>github</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <Description>Provides Noda Time support for Dapper</Description>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>Matt Johnson; forked and updated Adam Pluciński</Authors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/AdaskoTheBeAsT/AdaskoTheBeAsT.Dapper.NodaTime</PackageProjectUrl>
     <PackageTags>dapper;nodatime;noda time</PackageTags>
-    <PackageProjectUrl>https://github.com/mj1856/Dapper-NodaTime</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/mj1856/Dapper-NodaTime/master/LICENSE</PackageLicenseUrl>
-    <IncludeSource>True</IncludeSource>
-    <IncludeSymbols>True</IncludeSymbols>
-    <Version>0.1.0</Version>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     <PackageReference Include="NodaTime" Version="3.1.5" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>
