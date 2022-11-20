@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="LocalDb" Version="14.0.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.1" />
   </ItemGroup>
 
@@ -25,22 +26,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\AdaskoTheBeAsT.Dapper.NodaTime\AdaskoTheBeAsT.Dapper.NodaTime.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="TestDB.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestDB_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>TestDB.mdf</DependentUpon>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,5 @@
 using System.Linq;
 using Dapper;
-using Microsoft.Extensions.Configuration;
 using NodaTime;
 using Xunit;
 
@@ -9,13 +8,11 @@ namespace AdaskoTheBeAsT.Dapper.NodaTime.Test
     [Collection("DBTests")]
     public class OffsetDateTimeTests
     {
-        private readonly IConfiguration _configuration;
+        private readonly string _connectionString;
 
-        public OffsetDateTimeTests()
+        public OffsetDateTimeTests(DatabaseFixture databaseFixture)
         {
-            _configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
+            _connectionString = databaseFixture.ConnectionString;
             SqlMapper.AddTypeHandler(OffsetDateTimeHandler.Default);
         }
 
@@ -23,7 +20,7 @@ namespace AdaskoTheBeAsT.Dapper.NodaTime.Test
         [ClassData(typeof(DbVendorLibraryTestData))]
         public void Can_Write_And_Read_OffsetDateTime_Stored_As_DateTimeOffset(DbVendorLibrary library)
         {
-            using var connection = DbVendorLibraryConnectionProvider.Provide(library, _configuration);
+            using var connection = DbVendorLibraryConnectionProvider.Provide(library, _connectionString);
             var o = new TestObject
             {
                 Value = new OffsetDateTime(
@@ -41,7 +38,7 @@ namespace AdaskoTheBeAsT.Dapper.NodaTime.Test
         [ClassData(typeof(DbVendorLibraryTestData))]
         public void Can_Write_And_Read_OffsetDateTime_With_Null_Value(DbVendorLibrary library)
         {
-            using var connection = DbVendorLibraryConnectionProvider.Provide(library, _configuration);
+            using var connection = DbVendorLibraryConnectionProvider.Provide(library, _connectionString);
             var o = new TestObject();
 
             const string sql = "CREATE TABLE #T ([Value] datetimeoffset); INSERT INTO #T VALUES (@Value); SELECT * FROM #T";
